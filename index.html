@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link type="text/css" rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Weather App</title>
+</head>
+<body>
+  <main>
+      <div class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-asterisk font-light"><path d="M12 6v12"></path><path d="M17.196 9 6.804 15"></path><path d="m6.804 9 10.392 6"></path></svg>
+        <h1>Real-Time Weather Application</h1>
+      </div>
+    <div class="weather-container">
+      <input type="text" id="city" placeholder="Enter city name" />
+      <button onclick="getWeather()">Get Weather</button>
+      <div id="weather-result">
+
+      </div>
+    </div>
+  </main>
+<script>
+  async function getWeather() {
+      const city = document.getElementById('city').value;
+      const apiKey = 'YOUR_API_KEY_HERE';
+      const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`
+      try {
+          const response = await fetch(apiUrl);
+          if (!response.ok) {
+              throw new Error('City not found');
+          }
+          const data = await response.json()
+          const weatherDetails = `
+              <h2>${data.name}, ${data.sys.country}</h2>
+              <p>Temperature: ${data.main.temp}°C</p>
+              <p>Weather: ${data.weather[0].description}</p>
+              <p>Humidity: ${data.main.humidity}%</p>
+              <p>Wind Speed: ${data.wind.speed} m/s</p>
+          `;
+          document.getElementById('weather-result').innerHTML = weatherDetails;
+      } catch (error) {
+          document.getElementById('weather-result').innerHTML = `<p class="error" style="color: #3a3a4d;">Error: ${error.message}</p>`;
+      }
+  }
+</script>
+</body>
+</html>
+
+    <script type="module" src="script.js"></script>
+  </body>
+</html>
